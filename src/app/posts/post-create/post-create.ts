@@ -7,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrl: './post-create.css'
 })
 export class PostCreate {
+  newPost = '';
 
+  onAddPost(postInput: HTMLTextAreaElement) {
+    console.dir(postInput);
+    this.newPost = postInput.value;
+  }
 }
