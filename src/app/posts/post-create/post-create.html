@@ -2,12 +2,16 @@
   <mat-form-field>
     <mat-label>Post Title</mat-label>
     <input matInput type="text" formControlName="title">
-    <mat-error *ngIf="postForm.get('title')?.invalid">Please enter a title (min 3 characters)</mat-error>
+    @if (postForm.get('title')?.invalid) {
+      <mat-error>Please enter a title (min 3 characters)</mat-error>
+    }
   </mat-form-field>
   <mat-form-field>
     <mat-label>Post Content</mat-label>
     <textarea matInput rows="6" formControlName="content"></textarea>
-    <mat-error *ngIf="postForm.get('content')?.invalid">Please enter content</mat-error>
+    @if (postForm.get('content')?.invalid) {
+      <mat-error>Please enter content</mat-error>
+    }
   </mat-form-field>
   <button mat-raised-button color="primary" type="submit">Save Post</button>
 </form>
