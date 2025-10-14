@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
-import { 
-  MatAccordion, 
+import {
+  MatAccordion,
   MatExpansionPanel,
   MatExpansionPanelHeader
 } from "@angular/material/expansion";
+import { Post } from '../post.model';
 
 @Component({
   selector: 'app-post-list',
   imports: [MatAccordion, MatExpansionPanel, MatExpansionPanelHeader],
   templateUrl: './post-list.html',
-  styleUrl: './post-list.css'
+  styleUrls: ['./post-list.css']
 })
 export class PostList {
-
+  posts: Post[] = [];
 }

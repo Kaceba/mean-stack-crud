@@ -1,13 +1,14 @@
-<mat-accordion>
-    <mat-expansion-panel>
+@if (posts.length > 0) {
+  <mat-accordion multi="true">
+    @for (post of posts; track post.title) {
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
-            Header?
+          {{ post.title }}
         </mat-expansion-panel-header>
-    </mat-expansion-panel>
-</mat-accordion>
-<p>post1</p>
-<p>post2</p>
-<p>post3</p>
-<p>post4</p>
-<p>post5</p>
-<p>post6</p>
+        <p>{{ post.content }}</p>
+      </mat-expansion-panel>
+    }
+  </mat-accordion>
+} @else {
+  <p class="info-text mat-body-1">No posts available.</p>
+}
