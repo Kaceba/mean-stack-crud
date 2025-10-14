@@ -1,0 +1,10 @@
+/* header.css */
+.toolbar {
+    background-color: #0a2342; /* Deep blue */
+    color: #fff;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    font-size: 1.2rem;
+}
