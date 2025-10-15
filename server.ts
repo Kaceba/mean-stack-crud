@@ -1,11 +1,13 @@
 console.log("Server is starting...");
 
-const app = require('./backend/app');
-const debug = require("debug")("node-angular");
-const http = require("http");
+import app from './backend/app';
+import debug from "debug";
+import http from "http";
 
-const normalizePort = val => {
-    const port = parseInt(val, 10);
+const debugLog = debug("node-angular");
+
+const normalizePort = (val: string | number) => {
+    const port = typeof val === 'string' ? parseInt(val, 10) : val;
 
     if (isNaN(port)) {
         return val;
@@ -16,7 +18,7 @@ const normalizePort = val => {
     return false;
 }
 
-const onError = error => {
+const onError = (error: NodeJS.ErrnoException) => {
     if (error.syscall !== 'listen') {
         throw error;
     }
@@ -26,11 +28,9 @@ const onError = error => {
         case 'EACCES':
             console.error(bind + ' requires elevated privileges.');
             process.exit(1);
-            break;
         case 'EADDRINUSE':
             console.error(bind + ' is already in use.');
             process.exit(1);
-            break;
         default:
             throw error;
     }
@@ -38,8 +38,12 @@ const onError = error => {
 
 const onListening = () => {
     const addr = server.address();
+    if (!addr) {
+        console.error('Unable to get server address');
+        return;
+    }
     const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-    console.log('Listening on ' + bind);
+    debugLog('Listening on ' + bind);
 }
 
 const port = normalizePort(process.env.PORT || '3000');
