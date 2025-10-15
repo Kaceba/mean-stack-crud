@@ -1,20 +1,25 @@
-const { APP_BOOTSTRAP_LISTENER } = require("@angular/core");
-const express = require("express");
-const bodyParser = require("body-parser");
+import express, { Request, Response, NextFunction } from "express";
+import bodyParser from "body-parser";
+
+interface Post {
+    id: string;
+    title: string;
+    content: string;
+}
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
     next();
 });
 
-app.post('/api/posts', (req, res, next) => {
+app.post('/api/posts', (req: Request, res: Response, next: NextFunction) => {
     const post = req.body;
     console.log(post);
     res.status(201).json({
@@ -24,21 +29,21 @@ app.post('/api/posts', (req, res, next) => {
     });
 });
 
-app.use('/api/posts', (req, res, next) => {
-    const posts = [
+app.get('/api/posts', (req: Request, res: Response, next: NextFunction) => {
+    const posts: Post[] = [
         {
             id: 'fadfadsf1',
             title: 'First server-side post',
             content: 'This is coming from the server'
-        }
-        , {
+        },
+        {
             id: 'fadfadsf2',
             title: 'Second server-side post',
             content: 'This is coming from the server!!!'
         }
     ];
 
-    res.status(200).json({message: 'Posts fetched successfully!', posts: posts});
+    res.status(200).json({ message: 'Posts fetched successfully!', posts: posts });
 });
 
-module.exports = app;
+export default app;
