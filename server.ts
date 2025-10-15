@@ -46,7 +46,7 @@ const onListening = () => {
     debugLog('Listening on ' + bind);
 }
 
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env['PORT'] || '3000');
 app.set('port', port);
 
 const server = http.createServer(app);
@@ -54,3 +54,4 @@ server.on('error', onError);
 server.on('listening', onListening);
 server.listen(port);
 
+console.log("Started! Listening on port " + port);

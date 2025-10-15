@@ -7,8 +7,9 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "start:server": "nodemon server.ts",
-    "build:server": "tsc -p backend/tsconfig.json"
+    "start:server": "ts-node --project tsconfig.server.json server.ts",
+    "build:server": "tsc -p backend/tsconfig.json",
+    "serve:server": "npm run build:server && node backend/dist/app.js"
   },
   "prettier": {
     "printWidth": 100,
