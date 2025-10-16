@@ -1,8 +1,12 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 console.log('Server is starting...');
 
 import app from './backend/app';
 import debug from 'debug';
 import http from 'http';
+import { connectDatabase, closeDatabase } from './backend/database';
 
 const debugLog = debug('node-angular');
 
@@ -52,6 +56,41 @@ app.set('port', port);
 const server = http.createServer(app);
 server.on('error', onError);
 server.on('listening', onListening);
-server.listen(port);
 
-console.log('Started! Listening on port ' + port);
+// Connect to database then start server
+connectDatabase()
+  .then(() => {
+    server.listen(port);
+    console.log('Started! Listening on port ' + port);
+  })
+  .catch((error) => {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  });
+
+// Graceful shutdown
+const shutdown = async (signal: string) => {
+  console.log(`${signal} received. Shutting down gracefully...`);
+
+  server.close(async () => {
+    console.log('HTTP server closed');
+
+    try {
+      await closeDatabase();
+      console.log('Application shutdown complete');
+      process.exit(0);
+    } catch (err) {
+      console.error('Error during shutdown:', err);
+      process.exit(1);
+    }
+  });
+
+  // Force shutdown after 10 seconds
+  setTimeout(() => {
+    console.error('Forcing shutdown after timeout');
+    process.exit(1);
+  }, 10000);
+};
+
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
