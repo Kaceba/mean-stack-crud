@@ -6,7 +6,7 @@ services:
     container_name: mean-course-mongodb
     restart: unless-stopped
     ports:
-      - "27017:27017"
+      - '27018:27018'
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password123
