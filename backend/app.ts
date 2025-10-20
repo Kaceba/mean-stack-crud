@@ -1,11 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
-
-interface Post {
-    id: string;
-    title: string;
-    content: string;
-}
+import { Post } from "./models/post.model";
 
 const app = express();
 
@@ -19,31 +14,53 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     next();
 });
 
-app.post('/api/posts', (req: Request, res: Response, next: NextFunction) => {
-    const post = req.body;
-    console.log(post);
-    res.status(201).json({
-        message: 'Post added successfully',
-        title: post.title,
-        content: post.content
-    });
+app.post('/api/posts', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const post = new Post({
+            title: req.body.title,
+            content: req.body.content
+        });
+
+        const savedPost = await post.save();
+
+        res.status(201).json({
+            message: 'Post added successfully',
+            post: {
+                id: savedPost._id,
+                title: savedPost.title,
+                content: savedPost.content,
+                createdAt: savedPost.createdAt,
+                updatedAt: savedPost.updatedAt
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: 'Failed to create post',
+            error: error instanceof Error ? error.message : 'Unknown error'
+        });
+    }
 });
 
-app.get('/api/posts', (req: Request, res: Response, next: NextFunction) => {
-    const posts: Post[] = [
-        {
-            id: 'fadfadsf1',
-            title: 'First server-side post',
-            content: 'This is coming from the server'
-        },
-        {
-            id: 'fadfadsf2',
-            title: 'Second server-side post',
-            content: 'This is coming from the server!!!'
-        }
-    ];
+app.get('/api/posts', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const posts = await Post.find();
 
-    res.status(200).json({ message: 'Posts fetched successfully!', posts: posts });
+        res.status(200).json({
+            message: 'Posts fetched successfully!',
+            posts: posts.map(post => ({
+                id: post._id,
+                title: post.title,
+                content: post.content,
+                createdAt: post.createdAt,
+                updatedAt: post.updatedAt
+            }))
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: 'Failed to fetch posts',
+            error: error instanceof Error ? error.message : 'Unknown error'
+        });
+    }
 });
 
 export default app;
