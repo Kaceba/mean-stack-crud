@@ -1,4 +1,4 @@
-<form [formGroup]="postForm" (submit)="onAddPost()">
+<form [formGroup]="postForm" (submit)="onSavePost()">
   <mat-form-field>
     <mat-label>Post Title</mat-label>
     <input matInput type="text" formControlName="title">
@@ -13,5 +13,5 @@
       <mat-error>Please enter content</mat-error>
     }
   </mat-form-field>
-  <button mat-raised-button color="primary" type="submit">Save Post</button>
+  <button mat-raised-button color="primary" type="submit">{{ mode === 'create' ? 'Save Post' : 'Update Post' }}</button>
 </form>

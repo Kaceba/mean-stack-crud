@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import {
   MatAccordion,
@@ -19,6 +19,7 @@ import { PostsService } from '../posts.service';
 export class PostList implements OnInit, OnDestroy {
   posts: Post[] = [];
   private postsSub!: Subscription;
+  @Output() postToEdit = new EventEmitter<Post>();
 
   constructor(private postsService: PostsService) {}
 
@@ -28,6 +29,16 @@ export class PostList implements OnInit, OnDestroy {
       .subscribe((posts: Post[]) => {
         this.posts = posts;
       });
+  }
+
+  onEdit(post: Post) {
+    this.postToEdit.emit(post);
+  }
+
+  onDelete(postId: string | null) {
+    if (postId) {
+      this.postsService.deletePost(postId);
+    }
   }
 
   ngOnDestroy() {
