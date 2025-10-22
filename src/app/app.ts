@@ -14,6 +14,7 @@ export class App {
   postToEdit: Post | null = null;
 
   onPostEdit(post: Post) {
+    console.log('APP: Received post to edit:', post);
     this.postToEdit = post;
   }
 }

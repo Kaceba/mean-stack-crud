@@ -32,6 +32,7 @@ export class PostList implements OnInit, OnDestroy {
   }
 
   onEdit(post: Post) {
+    console.log('POST-LIST: Edit button clicked for post:', post);
     this.postToEdit.emit(post);
   }
 
