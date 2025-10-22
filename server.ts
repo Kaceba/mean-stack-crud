@@ -61,7 +61,10 @@ server.on('listening', onListening);
 connectDatabase()
   .then(() => {
     server.listen(port);
+    const addr = server.address();
+    const address = typeof addr === 'string' ? addr : `http://localhost:${addr?.port || port}`;
     console.log('Started! Listening on port ' + port);
+    console.log('Application link: ' + (typeof addr === 'string' ? addr : `http://localhost:${addr?.port || port}`));
   })
   .catch((error) => {
     console.error('Failed to start server:', error);
