@@ -16,7 +16,7 @@ export const connectDatabase = async (): Promise<void> => {
     console.log(`Database: ${mongoose.connection.db?.databaseName}`);
     console.log(`Host: ${mongoose.connection.host}`);
   } catch (error) {
-    console.error('❌ MongoDB connection error:', error);
+    console.error('MongoDB connection error:', error);
     process.exit(1);
   }
 };
