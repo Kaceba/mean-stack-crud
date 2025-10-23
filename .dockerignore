@@ -1,0 +1,44 @@
+# Node modules
+node_modules
+npm-debug.log
+
+# Angular build output
+dist
+.angular
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*.swn
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Logs
+logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage
+
+# Misc
+*.md
+!README.md
+.editorconfig
