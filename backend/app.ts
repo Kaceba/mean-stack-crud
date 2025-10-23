@@ -9,9 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const allowedOrigins = [
-    'http://localhost:4200',           // Browser accessing frontend locally
-    'http://yourdomain.com',           // Production domain (replace with actual domain)
-    'https://yourdomain.com'           // Production HTTPS (replace with actual domain)
+    'http://localhost:4200',           // Development frontend
   ];
 
   const origin = req.headers.origin;

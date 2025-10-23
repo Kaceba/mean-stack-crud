@@ -11,8 +11,9 @@ A full-stack TypeScript application demonstrating CRUD operations using the MEAN
 - **Angular Material**: Modern, responsive UI components
 - **Reactive Forms**: Form validation and error handling
 - **Real-time Updates**: RxJS observables for reactive state management
-- **Dockerized Database**: MongoDB running in Docker container
-- **Environment Configuration**: Proper separation of dev/prod configurations
+- **Fully Dockerized**: Frontend (Nginx), Backend (Node.js), and Database (MongoDB) all containerized
+- **Production Ready**: Multi-stage Docker builds with optimized images
+- **CORS Security**: Restricted cross-origin access for secure communication
 
 ## Tech Stack
 
@@ -22,18 +23,22 @@ A full-stack TypeScript application demonstrating CRUD operations using the MEAN
 - Angular Material Design
 - RxJS for reactive programming
 - Reactive Forms with validation
+- Nginx (production web server)
+- Docker multi-stage build
 
 ### Backend
-- Node.js
+- Node.js 20
 - Express.js 5
 - TypeScript 5.9
 - Mongoose (MongoDB ODM)
-- CORS enabled
+- CORS with origin restrictions
+- Docker containerized
 
 ### Database
 - MongoDB 7.0
 - Docker containerized
 - Mongoose schema validation
+- Health checks for service dependencies
 
 ## Project Structure
 
@@ -43,7 +48,8 @@ mean-course/
 │   ├── models/
 │   │   └── post.model.ts       # Mongoose schema with validation
 │   ├── app.ts                  # Express app configuration and routes
-│   └── database.ts             # MongoDB connection management
+│   ├── database.ts             # MongoDB connection management
+│   └── Dockerfile              # Backend container configuration
 ├── src/
 │   └── app/
 │       ├── header/             # Header component
@@ -53,7 +59,10 @@ mean-course/
 │           ├── posts.service.ts # HTTP service for API calls
 │           └── post.model.ts   # Post interface
 ├── server.ts                   # TypeScript server entry point
-└── docker-compose.yml          # MongoDB container configuration
+├── Dockerfile                  # Frontend container configuration
+├── nginx.conf                  # Nginx configuration for Angular SPA
+├── docker-compose.yml          # Multi-container orchestration
+└── .dockerignore               # Docker build context exclusions
 ```
 
 ## API Endpoints
@@ -68,11 +77,32 @@ mean-course/
 ## Setup Instructions
 
 ### Prerequisites
-- Node.js (v18+)
 - Docker and Docker Compose
-- npm or yarn
+- (Optional) Node.js v20+ and npm for local development
 
-### Installation
+### Quick Start with Docker (Recommended)
+
+1. Clone the repository
+```bash
+git clone <repository-url>
+cd mean-course
+```
+
+2. Build and start all containers
+```bash
+docker-compose up -d --build
+```
+
+3. Open browser to `http://localhost:4200`
+
+4. Stop all containers
+```bash
+docker-compose down
+```
+
+That's it! The entire application (frontend, backend, and database) runs in Docker.
+
+### Local Development Setup (Without Docker)
 
 1. Clone the repository
 ```bash
@@ -99,7 +129,7 @@ PORT=3000
 
 4. Start MongoDB container
 ```bash
-docker-compose up -d
+docker-compose up mongodb -d
 ```
 
 5. Start the backend server
@@ -116,20 +146,24 @@ npm start
 
 ## Available Scripts
 
-### Frontend
+### Docker Commands
+- `docker-compose up -d --build` - Build and start all containers (frontend, backend, database)
+- `docker-compose down` - Stop all containers
+- `docker-compose logs -f` - View logs from all services
+- `docker-compose logs -f backend` - View backend logs only
+- `docker-compose restart backend` - Restart backend after code changes
+
+### Local Development Scripts
+
+#### Frontend
 - `npm start` - Start Angular dev server (http://localhost:4200)
 - `npm run build` - Build for production
 - `npm test` - Run unit tests
 
-### Backend
+#### Backend
 - `npm run start:server` - Start backend server (http://localhost:3000)
 - `npm run debug:server` - Start server with debugger
 - `npm run build:server` - Compile TypeScript to JavaScript
-
-### Database
-- `docker-compose up -d` - Start MongoDB container
-- `docker-compose down` - Stop MongoDB container
-- `docker-compose logs` - View MongoDB logs
 
 ## Key Implementation Details
 
@@ -206,18 +240,41 @@ this.postsService.getPostUpdateListener()
 - **Graceful Shutdown**: Database connection cleanup on process termination
 - **Environment Variables**: Sensitive data stored in .env files (gitignored)
 
-## Future Improvements
+## Possible Enhancements
 
-See [TODO.md](TODO.md) for planned enhancements including:
-- Input validation with express-validator
-- User authentication & authorization
-- Pagination for large datasets
-- Rate limiting and security headers
-- API versioning
-- Error feedback to users (toasts/snackbars)
-- Loading states and spinners
-- Unit and integration tests
-- Proper logging system (Winston)
+This project demonstrates core MEAN stack concepts. Potential additions for a production application could include:
+
+- **Authentication & Authorization**: User login, JWT tokens, protected routes
+- **Input Validation**: Backend validation with express-validator
+- **User Feedback**: Toast notifications and loading spinners
+- **Testing**: Unit tests (Jest) and E2E tests (Cypress)
+- **Pagination**: Handle large datasets efficiently
+- **Advanced Security**: Rate limiting, Helmet.js security headers
+- **Logging**: Structured logging with Winston or Pino
+- **CI/CD**: Automated testing and deployment pipeline
+
+## Docker Architecture
+
+The application uses a three-container architecture:
+
+```
+Browser → http://localhost:4200
+    ↓
+Nginx Container (serves Angular static files)
+    ↓
+Browser JavaScript makes API calls → http://localhost:3000
+    ↓
+Backend Container (Node.js + Express + TypeScript)
+    ↓
+MongoDB Container (internal network, mongodb:27017)
+```
+
+**Key Features:**
+- **Multi-stage builds**: Frontend uses build stage (Node.js) and runtime stage (Nginx) for optimized image size
+- **Service dependencies**: Backend waits for MongoDB health check before starting
+- **Docker networking**: All containers communicate on internal `mean-network`
+- **CORS security**: Backend only accepts requests from specific frontend origins
+- **Volume persistence**: MongoDB data persists across container restarts
 
 ## Development Notes
 
@@ -226,7 +283,10 @@ This project demonstrates:
 - MongoDB integration with Mongoose ODM and schema validation
 - Angular Material Design implementation with TypeScript
 - Reactive programming patterns using RxJS
-- Docker containerization for development environments
+- **Production-ready Docker containerization with multi-stage builds**
+- **Nginx as a production web server for Angular applications**
+- **Container orchestration with Docker Compose and health checks**
 - Full-stack TypeScript development with strict type checking
 - CRUD operations following RESTful conventions
 - End-to-end type safety from database to UI
+- **CORS configuration for secure cross-origin communication**
