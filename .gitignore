@@ -49,4 +49,5 @@ Thumbs.db
 .env.*.local
 
 # Claude Code notes
+.claude
 claude.md

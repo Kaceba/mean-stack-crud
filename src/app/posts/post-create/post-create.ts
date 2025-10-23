@@ -31,32 +31,25 @@ export class PostCreate implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('POST-CREATE: ngOnChanges called:', changes);
     if (changes['postToEdit'] && this.postToEdit) {
-      console.log('POST-CREATE: Setting edit mode with post:', this.postToEdit);
       this.mode = 'edit';
       this.postForm.setValue({
         title: this.postToEdit.title,
         content: this.postToEdit.content
       });
-      console.log('POST-CREATE: Form populated, mode:', this.mode);
     }
   }
 
   onSavePost() {
-    console.log('POST-CREATE: onSavePost called, mode:', this.mode, 'postToEdit:', this.postToEdit);
     if (this.postForm.invalid) {
-      console.log('POST-CREATE: Form invalid');
       return;
     }
     if (this.mode === 'create') {
-      console.log('POST-CREATE: Creating new post');
       this.postsService.addPost(
         this.postForm.value.title,
         this.postForm.value.content
       );
     } else if (this.postToEdit?.id) {
-      console.log('POST-CREATE: Updating post with id:', this.postToEdit.id);
       this.postsService.updatePost(
         this.postToEdit.id,
         this.postForm.value.title,
