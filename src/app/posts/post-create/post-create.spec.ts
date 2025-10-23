@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideHttpClient } from '@angular/common/http';
 import { PostCreate } from './post-create';
 
 describe('PostCreate', () => {
@@ -8,7 +8,8 @@ describe('PostCreate', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PostCreate]
+      imports: [PostCreate],
+      providers: [provideHttpClient()],
     })
     .compileComponents();
 

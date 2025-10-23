@@ -53,3 +53,6 @@ Thumbs.db
 # Claude Code notes
 .claude
 claude.md
+
+# Local development notes (not for remote)
+LOCAL_TODO.md

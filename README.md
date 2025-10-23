@@ -153,12 +153,37 @@ npm start
 - `docker-compose logs -f backend` - View backend logs only
 - `docker-compose restart backend` - Restart backend after code changes
 
+### Testing
+
+#### Backend Tests (Jest + Supertest)
+- `npm run test:backend` - Run backend API tests
+- `npm run test:backend:watch` - Run tests in watch mode
+- `npm run test:backend:coverage` - Run tests with coverage report
+
+**Backend Test Coverage:**
+- ✅ POST /api/posts - Create post with validation
+- ✅ GET /api/posts - Fetch all posts
+- ✅ PUT /api/posts/:id - Update post with validation
+- ✅ DELETE /api/posts/:id - Delete post
+- ✅ Error handling for invalid IDs and missing posts
+- **13 tests passing**
+
+#### Frontend Tests (Karma + Jasmine)
+- `npm test` - Run Angular unit tests
+- `npm test -- --watch=false` - Run tests once (CI mode)
+- `npm test -- --browsers=ChromeHeadless --watch=false` - Run headless for CI
+
+**Frontend Test Coverage:**
+- ✅ PostsService HTTP operations (GET, POST, PUT, DELETE)
+- ✅ Component creation and initialization
+- ✅ Observable state management
+- **16 tests passing**
+
 ### Local Development Scripts
 
 #### Frontend
 - `npm start` - Start Angular dev server (http://localhost:4200)
 - `npm run build` - Build for production
-- `npm test` - Run unit tests
 
 #### Backend
 - `npm run start:server` - Start backend server (http://localhost:3000)
@@ -239,6 +264,7 @@ this.postsService.getPostUpdateListener()
 - **Error Handling**: Proper try/catch blocks and HTTP status codes
 - **Graceful Shutdown**: Database connection cleanup on process termination
 - **Environment Variables**: Sensitive data stored in .env files (gitignored)
+- **Comprehensive Testing**: 29 tests covering backend APIs and frontend services
 
 ## Possible Enhancements
 
@@ -247,7 +273,7 @@ This project demonstrates core MEAN stack concepts. Potential additions for a pr
 - **Authentication & Authorization**: User login, JWT tokens, protected routes
 - **Input Validation**: Backend validation with express-validator
 - **User Feedback**: Toast notifications and loading spinners
-- **Testing**: Unit tests (Jest) and E2E tests (Cypress)
+- **E2E Testing**: End-to-end tests with Cypress or Playwright
 - **Pagination**: Handle large datasets efficiently
 - **Advanced Security**: Rate limiting, Helmet.js security headers
 - **Logging**: Structured logging with Winston or Pino
