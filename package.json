@@ -41,6 +41,7 @@
     "mongoose": "^8.19.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "winston": "^3.18.3",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {

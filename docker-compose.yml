@@ -6,10 +6,12 @@ services:
     image: mongo:7.0
     container_name: mean-course-mongodb
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password123
-      MONGO_INITDB_DATABASE: mean-course
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
     volumes:
       - mongodb_data:/data/db
       - mongodb_config:/data/configdb
@@ -30,10 +32,12 @@ services:
     restart: unless-stopped
     ports:
       - '3000:3000'
+    env_file:
+      - .env
     environment:
-      NODE_ENV: production
-      PORT: 3000
-      MONGODB_URI: mongodb://admin:password123@mongodb:27017/mean-course?authSource=admin
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: ${PORT:-3000}
+      MONGODB_URI: ${MONGODB_URI}
     depends_on:
       mongodb:
         condition: service_healthy

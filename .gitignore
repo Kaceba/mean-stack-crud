@@ -41,6 +41,10 @@ testem.log
 /typings
 __screenshots__/
 
+# Logs
+logs/
+*.log
+
 # System files
 .DS_Store
 Thumbs.db
@@ -56,4 +60,3 @@ claude.md
 
 # Local development notes (not for remote)
 LOCAL_TODO.md
-DECISIONS.md

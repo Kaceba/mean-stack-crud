@@ -13,6 +13,7 @@ A full-stack TypeScript application demonstrating CRUD operations using the MEAN
 - **Real-time Updates**: RxJS observables for reactive state management
 - **Fully Dockerized**: Frontend (Nginx), Backend (Node.js), and Database (MongoDB) all containerized
 - **Production Ready**: Multi-stage Docker builds with optimized images
+- **Observability**: Structured logging, health checks, and metrics endpoints
 - **CORS Security**: Restricted cross-origin access for secure communication
 
 ## Tech Stack
@@ -31,8 +32,10 @@ A full-stack TypeScript application demonstrating CRUD operations using the MEAN
 - Express.js 5
 - TypeScript 5.9
 - Mongoose (MongoDB ODM)
+- Winston (structured logging)
 - CORS with origin restrictions
 - Docker containerized
+- Health checks and metrics
 
 ### Database
 - MongoDB 7.0
@@ -67,12 +70,19 @@ mean-course/
 
 ## API Endpoints
 
+### CRUD Operations
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/posts` | Get all posts |
 | POST | `/api/posts` | Create new post |
 | PUT | `/api/posts/:id` | Update existing post |
 | DELETE | `/api/posts/:id` | Delete post |
+
+### Observability
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/health` | Health check (database status, memory, uptime) |
+| GET | `/metrics` | Application metrics (requests, errors, performance) |
 
 ## Setup Instructions
 
@@ -84,18 +94,24 @@ mean-course/
 
 1. Clone the repository
 ```bash
-git clone <repository-url>
-cd mean-course
+git clone https://github.com/Kaceba/mean-stack-crud.git
+cd mean-stack-crud
 ```
 
-2. Build and start all containers
+2. Set up environment variables
+```bash
+cp .env.example .env
+# Edit .env and change the default credentials (recommended for security)
+```
+
+3. Build and start all containers
 ```bash
 docker-compose up -d --build
 ```
 
-3. Open browser to `http://localhost:4200`
+4. Open browser to `http://localhost:4200`
 
-4. Stop all containers
+5. Stop all containers
 ```bash
 docker-compose down
 ```
@@ -106,8 +122,8 @@ That's it! The entire application (frontend, backend, and database) runs in Dock
 
 1. Clone the repository
 ```bash
-git clone <repository-url>
-cd mean-course
+git clone https://github.com/Kaceba/mean-stack-crud.git
+cd mean-stack-crud
 ```
 
 2. Install dependencies
@@ -115,16 +131,11 @@ cd mean-course
 npm install
 ```
 
-3. Create environment file (.env)
-```
-MONGO_USERNAME=admin
-MONGO_PASSWORD=password123
-MONGO_HOST=localhost
-MONGO_PORT=27018
-MONGO_DATABASE=mean-course
-MONGODB_URI=mongodb://admin:password123@localhost:27018/mean-course?authSource=admin
-NODE_ENV=development
-PORT=3000
+3. Set up environment variables
+```bash
+cp .env.example .env
+# Edit .env if you want to change default credentials
+# Note: For local development, ensure MONGODB_URI uses localhost:27017
 ```
 
 4. Start MongoDB container
@@ -264,6 +275,9 @@ this.postsService.getPostUpdateListener()
 - **Error Handling**: Proper try/catch blocks and HTTP status codes
 - **Graceful Shutdown**: Database connection cleanup on process termination
 - **Environment Variables**: Sensitive data stored in .env files (gitignored)
+- **Structured Logging**: Winston logger with JSON formatting and file outputs
+- **Health Checks**: Database connectivity and memory usage monitoring
+- **Metrics Tracking**: Request counts, error rates, and response time monitoring
 - **Comprehensive Testing**: 29 tests covering backend APIs and frontend services
 
 ## Possible Enhancements
@@ -276,8 +290,6 @@ This project demonstrates core MEAN stack concepts. Potential additions for a pr
 - **E2E Testing**: End-to-end tests with Cypress or Playwright
 - **Pagination**: Handle large datasets efficiently
 - **Advanced Security**: Rate limiting, Helmet.js security headers
-- **Logging**: Structured logging with Winston or Pino
-- **CI/CD**: Automated testing and deployment pipeline
 
 ## Docker Architecture
 

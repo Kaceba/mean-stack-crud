@@ -1,12 +1,13 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-console.log('Server is starting...');
-
 import app from './backend/app';
 import debug from 'debug';
 import http from 'http';
 import { connectDatabase, closeDatabase } from './backend/database';
+import { logger } from './backend/config/logger';
+
+logger.info('Server is starting...');
 
 const debugLog = debug('node-angular');
 
@@ -30,10 +31,10 @@ const onError = (error: NodeJS.ErrnoException) => {
 
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges.');
+      logger.error(bind + ' requires elevated privileges.');
       process.exit(1);
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use.');
+      logger.error(bind + ' is already in use.');
       process.exit(1);
     default:
       throw error;
@@ -63,34 +64,34 @@ connectDatabase()
     server.listen(port);
     const addr = server.address();
     const address = typeof addr === 'string' ? addr : `http://localhost:${addr?.port || port}`;
-    console.log('Started! Listening on port ' + port);
-    console.log('Application link: ' + (typeof addr === 'string' ? addr : `http://localhost:${addr?.port || port}`));
+    logger.info('Started! Listening on port ' + port);
+    logger.info('Application link: ' + (typeof addr === 'string' ? addr : `http://localhost:${addr?.port || port}`));
   })
   .catch((error) => {
-    console.error('Failed to start server:', error);
+    logger.error('Failed to start server:', error);
     process.exit(1);
   });
 
 // Graceful shutdown
 const shutdown = async (signal: string) => {
-  console.log(`${signal} received. Shutting down gracefully...`);
+  logger.info(`${signal} received. Shutting down gracefully...`);
 
   server.close(async () => {
-    console.log('HTTP server closed');
+    logger.info('HTTP server closed');
 
     try {
       await closeDatabase();
-      console.log('Application shutdown complete');
+      logger.info('Application shutdown complete');
       process.exit(0);
     } catch (err) {
-      console.error('Error during shutdown:', err);
+      logger.error('Error during shutdown:', err);
       process.exit(1);
     }
   });
 
   // Force shutdown after 10 seconds
   setTimeout(() => {
-    console.error('Forcing shutdown after timeout');
+    logger.error('Forcing shutdown after timeout');
     process.exit(1);
   }, 10000);
 };
