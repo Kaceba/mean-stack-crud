@@ -2,6 +2,19 @@
 
 A full-stack TypeScript application demonstrating CRUD operations using the MEAN stack (MongoDB, Express.js, Angular, Node.js).
 
+## Why This Project?
+
+This project demonstrates **production-ready development patterns** while keeping focus on core CRUD operations. Every architectural decision, from choosing MongoDB over PostgreSQL, to deferring authentication—is documented with rationale in [DECISIONS.md](./DECISIONS.md).
+
+**Key Learning Objectives:**
+- Full-stack TypeScript development (single language, end-to-end type safety)
+- RESTful API design with proper error handling
+- Production deployment with Docker (multi-stage builds, container orchestration)
+- Observability fundamentals (logging, health checks, metrics)
+- Test-driven development (29 passing tests)
+
+**Not a Tutorial Project:** This isn't following a course, it's a portfolio piece showcasing professional engineering judgment and production thinking within a focused scope.
+
 ## Features
 
 - **Full CRUD Operations**: Create, Read, Update, and Delete posts
@@ -48,8 +61,15 @@ A full-stack TypeScript application demonstrating CRUD operations using the MEAN
 ```
 mean-course/
 ├── backend/
+│   ├── config/
+│   │   └── logger.ts           # Winston logging configuration
+│   ├── middleware/
+│   │   ├── requestLogger.ts    # HTTP request logging middleware
+│   │   └── metrics.ts          # Metrics tracking middleware
 │   ├── models/
 │   │   └── post.model.ts       # Mongoose schema with validation
+│   ├── __tests__/
+│   │   └── posts.test.ts       # Backend API tests (Jest + Supertest)
 │   ├── app.ts                  # Express app configuration and routes
 │   ├── database.ts             # MongoDB connection management
 │   └── Dockerfile              # Backend container configuration
@@ -59,12 +79,15 @@ mean-course/
 │       └── posts/
 │           ├── post-create/    # Create/Edit form component
 │           ├── post-list/      # List display component
-│           ├── posts.service.ts # HTTP service for API calls
+│           ├── posts.service.ts       # HTTP service for API calls
+│           ├── posts.service.spec.ts  # Service tests
 │           └── post.model.ts   # Post interface
 ├── server.ts                   # TypeScript server entry point
 ├── Dockerfile                  # Frontend container configuration
 ├── nginx.conf                  # Nginx configuration for Angular SPA
 ├── docker-compose.yml          # Multi-container orchestration
+├── .env.example                # Environment variables template
+├── DECISIONS.md                # Architecture Decision Records (ADRs)
 └── .dockerignore               # Docker build context exclusions
 ```
 
@@ -83,6 +106,41 @@ mean-course/
 |--------|----------|-------------|
 | GET | `/health` | Health check (database status, memory, uptime) |
 | GET | `/metrics` | Application metrics (requests, errors, performance) |
+
+**Example Health Check Response:**
+```json
+{
+  "status": "ok",
+  "timestamp": "2025-10-24T12:17:26.417Z",
+  "uptime": 55.72,
+  "environment": "development",
+  "checks": {
+    "database": "connected",
+    "memory": {
+      "used": 261,
+      "total": 267,
+      "unit": "MB"
+    }
+  }
+}
+```
+
+**Example Metrics Response:**
+```json
+{
+  "requests": {
+    "total": 10,
+    "byMethod": { "GET": 6, "POST": 1, "PUT": 1, "DELETE": 2 }
+  },
+  "responses": {
+    "total": 9,
+    "byStatus": { "2xx": 8, "4xx": 0, "5xx": 1 }
+  },
+  "posts": { "created": 1, "updated": 1, "deleted": 1 },
+  "errors": { "total": 1 },
+  "performance": { "averageResponseTime": 12, "unit": "ms" }
+}
+```
 
 ## Setup Instructions
 
@@ -111,7 +169,16 @@ docker-compose up -d --build
 
 4. Open browser to `http://localhost:4200`
 
-5. Stop all containers
+5. Verify the application is running (optional)
+```bash
+# Check health endpoint
+curl http://localhost:3000/health
+
+# Check metrics
+curl http://localhost:3000/metrics
+```
+
+6. Stop all containers
 ```bash
 docker-compose down
 ```
@@ -280,16 +347,19 @@ this.postsService.getPostUpdateListener()
 - **Metrics Tracking**: Request counts, error rates, and response time monitoring
 - **Comprehensive Testing**: 29 tests covering backend APIs and frontend services
 
-## Possible Enhancements
+## What's NOT Included (Intentional Scope Decisions)
 
-This project demonstrates core MEAN stack concepts. Potential additions for a production application could include:
+This project intentionally focuses on CRUD operations and production deployment patterns. The following features are **deliberately excluded** with documented rationale:
 
-- **Authentication & Authorization**: User login, JWT tokens, protected routes
-- **Input Validation**: Backend validation with express-validator
-- **User Feedback**: Toast notifications and loading spinners
-- **E2E Testing**: End-to-end tests with Cypress or Playwright
-- **Pagination**: Handle large datasets efficiently
-- **Advanced Security**: Rate limiting, Helmet.js security headers
+### Authentication & Authorization
+**Status:** Deferred (see [DECISIONS.md ADR-004](./DECISIONS.md#adr-004-defer-authentication-implementation))
+
+**Rationale:** Authentication is a separate concern (identity management vs. data management). Adding it would muddle the project's focus on CRUD operations. For production systems requiring user authentication, established solutions like Passport.js or Auth0 are industry best practices.
+
+### CI/CD Pipeline
+**Status:** Intentionally excluded
+
+**Rationale:** For a completed portfolio piece that won't be actively developed, CI/CD adds complexity without value. The project has comprehensive tests (29 passing) that can be run manually. For a team environment with continuous deployment, I would add GitHub Actions.
 
 ## Docker Architecture
 
