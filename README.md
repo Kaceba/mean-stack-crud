@@ -1,17 +1,17 @@
 # MEAN Stack CRUD Application
 
-A full-stack TypeScript application demonstrating CRUD operations using the MEAN stack (MongoDB, Express.js, Angular, Node.js).
+A full stack TypeScript application demonstrating CRUD operations using the MEAN stack (MongoDB, Express.js, Angular, Node.js).
 
 ## Why This Project?
 
-This project demonstrates **production-ready development patterns** while keeping focus on core CRUD operations. Every architectural decision, from choosing MongoDB over PostgreSQL, to deferring authentication—is documented with rationale in [DECISIONS.md](./DECISIONS.md).
+This project demonstrates **production-ready development patterns** while keeping focus on core CRUD operations. Every architectural decision, from choosing MongoDB over PostgreSQL, to deferring authentication is documented with rationale in [DECISIONS.md](./DECISIONS.md).
 
 **Key Learning Objectives:**
-- Full-stack TypeScript development (single language, end-to-end type safety)
+- Full-stack TypeScript development (single language, end to end type safety)
 - RESTful API design with proper error handling
-- Production deployment with Docker (multi-stage builds, container orchestration)
+- Production deployment with Docker (staged builds, container orchestration)
 - Observability fundamentals (logging, health checks, metrics)
-- Test-driven development (29 passing tests)
+- Test driven development (29 tests)
 
 **Not a Tutorial Project:** This isn't following a course, it's a portfolio piece showcasing professional engineering judgment and production thinking within a focused scope.
 
@@ -23,11 +23,10 @@ This project demonstrates **production-ready development patterns** while keepin
 - **TypeScript**: Fully typed codebase on both frontend and backend
 - **Angular Material**: Modern, responsive UI components
 - **Reactive Forms**: Form validation and error handling
-- **Real-time Updates**: RxJS observables for reactive state management
+- **Real time Updates**: RxJS observables for reactive state management
 - **Fully Dockerized**: Frontend (Nginx), Backend (Node.js), and Database (MongoDB) all containerized
-- **Production Ready**: Multi-stage Docker builds with optimized images
 - **Observability**: Structured logging, health checks, and metrics endpoints
-- **CORS Security**: Restricted cross-origin access for secure communication
+- **CORS Security**: Restricted cross origin access for secure communication
 
 ## Tech Stack
 
@@ -38,7 +37,6 @@ This project demonstrates **production-ready development patterns** while keepin
 - RxJS for reactive programming
 - Reactive Forms with validation
 - Nginx (production web server)
-- Docker multi-stage build
 
 ### Backend
 - Node.js 20
@@ -239,11 +237,11 @@ npm start
 - `npm run test:backend:coverage` - Run tests with coverage report
 
 **Backend Test Coverage:**
-- ✅ POST /api/posts - Create post with validation
-- ✅ GET /api/posts - Fetch all posts
-- ✅ PUT /api/posts/:id - Update post with validation
-- ✅ DELETE /api/posts/:id - Delete post
-- ✅ Error handling for invalid IDs and missing posts
+- POST /api/posts - Create post with validation
+- GET /api/posts - Fetch all posts
+- PUT /api/posts/:id - Update post with validation
+- DELETE /api/posts/:id - Delete post
+- Error handling for invalid IDs and missing posts
 - **13 tests passing**
 
 #### Frontend Tests (Karma + Jasmine)
@@ -252,9 +250,9 @@ npm start
 - `npm test -- --browsers=ChromeHeadless --watch=false` - Run headless for CI
 
 **Frontend Test Coverage:**
-- ✅ PostsService HTTP operations (GET, POST, PUT, DELETE)
-- ✅ Component creation and initialization
-- ✅ Observable state management
+- PostsService HTTP operations (GET, POST, PUT, DELETE)
+- Component creation and initialization
+- Observable state management
 - **16 tests passing**
 
 ### Local Development Scripts
