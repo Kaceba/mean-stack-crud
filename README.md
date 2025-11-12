@@ -162,7 +162,7 @@ cp .env.example .env
 
 3. Build and start all containers
 ```bash
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 4. Open browser to `http://localhost:4200`
@@ -178,7 +178,7 @@ curl http://localhost:3000/metrics
 
 6. Stop all containers
 ```bash
-docker-compose down
+docker compose down
 ```
 
 That's it! The entire application (frontend, backend, and database) runs in Docker.
@@ -205,7 +205,7 @@ cp .env.example .env
 
 4. Start MongoDB container
 ```bash
-docker-compose up mongodb -d
+docker compose up mongodb -d
 ```
 
 5. Start the backend server
@@ -223,11 +223,11 @@ npm start
 ## Available Scripts
 
 ### Docker Commands
-- `docker-compose up -d --build` - Build and start all containers (frontend, backend, database)
-- `docker-compose down` - Stop all containers
-- `docker-compose logs -f` - View logs from all services
-- `docker-compose logs -f backend` - View backend logs only
-- `docker-compose restart backend` - Restart backend after code changes
+- `docker compose up -d --build` - Build and start all containers (frontend, backend, database)
+- `docker compose down` - Stop all containers
+- `docker compose logs -f` - View logs from all services
+- `docker compose logs -f backend` - View backend logs only
+- `docker compose restart backend` - Restart backend after code changes
 
 ### Testing
 
