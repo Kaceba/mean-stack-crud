@@ -2,6 +2,8 @@
 
 A full stack TypeScript application demonstrating CRUD operations using the MEAN stack (MongoDB, Express.js, Angular, Node.js).
 
+<img width="2166" height="1188" alt="image" src="https://github.com/user-attachments/assets/e6b4b17a-af2c-4a78-8d9d-dcfc04882584" />
+
 ## Why This Project?
 
 This project demonstrates **production-ready development patterns** while keeping focus on core CRUD operations. Every architectural decision, from choosing MongoDB over PostgreSQL, to deferring authentication is documented with rationale in [DECISIONS.md](./DECISIONS.md).
